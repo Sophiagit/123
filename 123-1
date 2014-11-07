@@ -1,0 +1,61 @@
+<?php include "calendarView.php";?>
+<html>
+	<head>
+	    <meta charset="utf-8">
+		<title>calendar</title>
+	</head>
+	<link rel="stylesheet" rev="stylesheet" href="style.css" type="text/css" />
+	<body>
+		<?if(!@$_GET["new"]):?>
+		<form>
+			Input Date&nbsp;:&nbsp;<input type="text" value="<?php echo @$_GET['date'];?>" name="date" />
+			e.g. yyyy-mm </br>
+			<select name="style">
+				<option value="1">Traditional month view</option>
+				<option value="2">Traditional three-month view</option>
+				<option value="3">Traditional year view</option>
+				<option value="4">Linear month view</option>
+				<option value="5">Linear three-month view</option>
+				<option value="6">Linear year view</option>
+			</select>
+			<select name="sunday">
+				<option value="1">Show Day-Of-Week</option>
+				<option value="0">Not Show Day-Of-Week</option>
+			</select>
+			<select name="year">
+				<option value="1">Show Year and Month</option>
+				<option value="0">Not Show Year and Month</option>
+			</select>
+			<select name="hilight">
+				<option value="1">Hightlight Sundays</option>
+				<option value="0">Not Hightlight Sunday</option>
+			</select>
+			<select name="new">
+				<option value="0">Display on This Page</option>
+				<option value="1">Display on Own Page</option>
+			</select>
+			<input type="submit" value="submit"/>
+		</form>
+	
+	
+		<?endif;?>
+		<!--<a target="_blank" style="display:block;clear:both;" href="calendar.php">new page</a>-->
+		<div id="main"><?php 
+				$obj=new calendar;
+				$date=@$_GET["date"];
+				$msg="";
+				if(!empty($date)){
+					if(strtotime($date)!=strtotime(0)){
+						$obj->date=$date;
+					}else{
+						$msg="Invalid selection";
+					}
+				}
+				$obj->title=@$_GET["sunday"];
+				$obj->year=@$_GET["year"];
+				$obj->hilight=@$_GET["hilight"];
+				$obj->display(@$_GET["style"]);
+		?></div>
+		<div class="error"><?php echo $msg;?></div>
+	</body>
+</html>
