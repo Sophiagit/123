@@ -1,0 +1,55 @@
+body {
+		  margin: 0;
+		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		  font-size: 14px;
+		  line-height: 20px;
+		  color: #333333;
+		  background-color: #ffffff;
+	}
+
+b{
+	font-size:18px;
+ }
+
+table{
+	background-color: transparent; border-collapse: collapse;
+     }
+*{
+	margin:0;padding:0;color:#444;
+}
+
+body{
+	margin:30px auto;width:1000px;
+}
+
+table{
+	float:left;width:250px;height:250px;
+}
+
+tr{
+	text-align:center;
+}
+        #main{width:auto;height:auto;}
+		#main h4{margin:4px 20px;}
+		#main .c1{height:300px;width:250px;padding:5px;}
+		#main .c2{width:250px;height:250px;float:left;margin:3px;padding:3px;}
+		#main .c3{width:250px;height:250px;float:left;margin:3px;padding:3px;padding-top:9px;}
+		#main .c5{width:250px;height230px;float:left;margin-left:10px;}
+		#main .c5 table thead tr{background-color:#eee}
+		#main .c5 table tr{border-bottom:1px solid #ddd;}
+		#main .c6 table thead tr{ font-weight:bold;}
+		#main .c6 {width:600px;}
+		
+ul{
+	list-style-type:none;display:block;clear:both;position:fixed;bottom:20px;color:red;
+  }
+
+li{
+	float:left;color:red;margin-left:20px;
+}
+
+li a:hover{
+
+	background-color:green;color:white}
+		
+		.error{color:red;}
