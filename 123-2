@@ -1,0 +1,147 @@
+<?php
+	class calendar{
+		public $date=true;
+		public $sunday=true;
+		public $title=true;
+		public $year=true;
+		public $hilight=true;
+		function __construct($date=null){
+			$date=isset($date)?$date:date("Y-m-d");
+			$this->date=$date;
+		}
+		private function gettable($date){
+			$title=array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+			$first=date("Y-m-01",strtotime($date));
+			$first=date("w",strtotime($first));
+			$end=date("t",strtotime($date));
+			echo "<table>\n";
+			echo "<thead>";
+			if($this->title)
+				foreach($title as $v){
+					echo "<td >$v</td>\n";
+				}
+			echo "</thead>";
+			for($i=0;$i<6;$i++){
+				echo "<tr>\n";
+				for($j=0;$j<7;$j++){
+					$day=$i*7+$j;
+					if($day>=$first&&$day<=$end+$first-1)
+						if(!($this->sunday)&&$day%7==0){
+							echo "<td ></td>";
+						}elseif($this->hilight&&$day%7==0){
+							echo "<td class='h-event'><time class='p-name' /><time class='dt-start' /><b>".($day-$first+1)."</b><time class='dt-end' /></td>";
+						}else{
+							echo "<td class='h-event'><time class='p-name' /><time class='dt-start' />".($day-$first+1)."<time class='dt-end' /></td>";
+						}
+					else
+						echo "<td> </td>";
+				}
+				echo "</tr>\n";
+			}
+			echo "</table>\n";
+		}
+		private function display1(){
+			$date=$this->date;
+			echo "<div class='c1'>";
+			if($this->year)
+			echo "<h3>".date("M Y",strtotime($date))."</h3>";
+			self::gettable($date);
+			echo "</div>";
+		}
+		private function display2(){
+			$date=$this->date;
+			$date=date("Y-m-d",strtotime("$date - 1 month"));
+			if($this->year)
+				echo "<br><center><b style='display:block;clear:both'>".date("Y",strtotime($this->date))."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></center>";
+			for($i=0;$i<3;$i++){
+				echo "<div class='c2'>\n";
+				if($this->year)
+					echo "<center><b>".date("M",strtotime($date))."</b></center><br>";
+				self::gettable($date);
+				$date=date("Y-m-d",strtotime("$date + 1 month"));
+				echo "</div>\n";
+			}
+		}
+		
+		private function display3(){
+			$date=date("Y-01-01");
+			if($this->year)
+				echo "<br><center><b style='display:block;clear:both'>".date("Y",strtotime($this->date))."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></center>";
+			for($i=0;$i<12;$i++){
+				echo "<div class='c3'>\n";
+				if($this->year)
+					echo "<center><b>".date("M",strtotime($date))."</b></center><br>";
+				self::gettable($date);
+				$date=date("Y-m-01",strtotime("$date + 1 month"));
+				echo "</div>\n";
+			}
+		}
+		private function gettable1($count,$class){
+			$date=$this->date;
+			for($i=0;$i<$count;$i++){
+				$first=date("Y-m-01",strtotime($date));
+				$begin[]=date("w",strtotime($first));
+				$date=date("Y-m-01",strtotime("$date + 1 month"));
+			}
+			$date=$this->date;
+			for($i=0;$i<$count;$i++){
+				$end[]=date("t",strtotime($date));
+				$date=date("Y-m-01",strtotime("$date + 1 month"));
+			}
+			echo "<table border='1' class='$class'>";
+			echo "<tr>";
+			$date=$this->date;
+			$date=date("Y-m-d",strtotime("$date -2month"));
+			for($k=0;$k<=count($begin);$k++){
+				echo "<td>";
+				if($k)echo "<b>".date("m",strtotime("$date + ".($k%12+1)." month"))."</b>";
+				echo "</td>";
+			}
+			echo "</tr>";
+			for($i=0;$i<40;$i++){
+				$weekdays=array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+				echo "<tr>";
+				for($j=0;$j<count($begin)+1;$j++){
+					if($j==0){
+						echo "<td>";
+						if($this->title)echo $weekdays[$i%7];
+						echo "</td>";
+					}else{
+						echo "<td date='$this->date'>";
+							if($i>=$begin[$j-1]&&$i<$begin[$j-1]+$end[$j-1]){
+								if(!($this->sunday)&&$i%7==0){
+									}
+								elseif($this->hilight&&$i%7==0){
+									echo "<b>".($i-$begin[$j-1]+1)."</b>";
+								}else{
+									echo $i-$begin[$j-1]+1;
+								}
+							}
+						echo "</td>";
+					}
+				}
+				echo "</tr>";
+			}
+			echo "</table>";
+		}
+		private function display4(){
+			if($this->year)
+				echo "<br><b style='display:block;clear:both'>".date("M Y",strtotime($this->date))."</b>";
+			$this->gettable1(1,"c4");
+		}
+		private function display5(){
+			$this->date=date("Y-m-d",strtotime("$this->date -1month"));
+			if($this->year)
+				echo "<br><b style='display:block;clear:both'>".date("M Y",strtotime($this->date))."</b>";
+			$this->gettable1(3,"c5");
+		}
+		private function display6(){
+			if($this->year)
+				echo "<br><b style='display:block;clear:both'>".date("M Y",strtotime($this->date))."</b>";
+			$this->gettable1(12,"c6");
+		}
+		function display($type=1){
+			$method="display".$type;
+			$this->$method();
+		}
+	}
